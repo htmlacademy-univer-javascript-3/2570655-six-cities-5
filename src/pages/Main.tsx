@@ -1,10 +1,14 @@
-import Card from '../components/card.tsx';
+import {ReactElement} from 'react';
+import {OffersList} from '../components/offersList.tsx';
+import {Offers} from '../types/offer.ts';
+import {HeaderNav} from '../components/heander-nav.tsx';
 
 type MainScreenProps = {
     placesCount: number;
+    offers: Offers;
 }
 
-function MainScreen({placesCount}: MainScreenProps): JSX.Element {
+function MainScreen({placesCount, offers}: MainScreenProps) : ReactElement {
   return(
     <div className="page page--gray page--main">
       <header className="header">
@@ -21,27 +25,7 @@ function MainScreen({placesCount}: MainScreenProps): JSX.Element {
                 />
               </a>
             </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a
-                    className="header__nav-link header__nav-link--profile"
-                    href="#"
-                  >
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                    <span className="header__user-name user__name">
-                      Oliver.conner@gmail.com
-                    </span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <HeaderNav offers={offers}/>
           </div>
         </div>
       </header>
@@ -116,45 +100,7 @@ function MainScreen({placesCount}: MainScreenProps): JSX.Element {
                   </li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                <Card
-                  isPremium
-                  imageUrl={'img/apartment-01.jpg'}
-                  price={120}
-                  placeCardType={'Apartment'}
-                  placeCardName={
-                    'Beautiful &amp; luxurious apartment at great location'
-                  }
-                />
-                <Card
-                  isPremium={false}
-                  imageUrl={'img/room.jpg'}
-                  price={80}
-                  placeCardType={'Room'}
-                  placeCardName={'Wood and stone place'}
-                />
-                <Card
-                  isPremium={false}
-                  imageUrl={'img/apartment-02.jpg'}
-                  price={132}
-                  placeCardType={'Apartment'}
-                  placeCardName={'Canal View Prinsengracht'}
-                />
-                <Card
-                  isPremium
-                  imageUrl={'img/apartment-03.jpg'}
-                  price={180}
-                  placeCardType={'Apartment'}
-                  placeCardName={'Nice, cozy, warm big bed apartment'}
-                />
-                <Card
-                  isPremium={false}
-                  imageUrl={'img/room.jpg'}
-                  price={80}
-                  placeCardType={'Room'}
-                  placeCardName={'Wood and stone place'}
-                />
-              </div>
+              <OffersList offers={offers}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" />
