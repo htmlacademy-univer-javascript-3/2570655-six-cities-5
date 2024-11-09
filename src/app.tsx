@@ -7,23 +7,25 @@ import Offer from './pages/Offer.tsx';
 import Favorites from './pages/Favorites.tsx';
 import Login from './pages/Login.tsx';
 import PrivateRoute from './private-route.tsx';
+import {Offers} from './types/offer.ts';
 
 type AppScreenProps = {
   placesCount: number;
   authorizationStatus: AuthorizationStatus;
+  offers: Offers;
 }
 
-function App(props: AppScreenProps): ReactElement {
+function App({placesCount, authorizationStatus, offers}: AppScreenProps): ReactElement {
   return(
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainScreen placesCount={props.placesCount} />}
+          element={<MainScreen placesCount={placesCount} offers={offers} />}
         />
         <Route
-          path={AppRoute.Offer}
-          element={<Offer />}
+          path={AppRoute.OfferId}
+          element={<Offer offers={offers}/>}
         />
         <Route
           path={AppRoute.Login}
@@ -32,8 +34,8 @@ function App(props: AppScreenProps): ReactElement {
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute authorizationStatus={props.authorizationStatus}>
-              <Favorites />
+            <PrivateRoute authorizationStatus={authorizationStatus}>
+              <Favorites offers={offers}/>
             </PrivateRoute>
           }
         />
