@@ -5,9 +5,9 @@ export const offersMock: Offers = [
     id: '1',
     city: {
       name: 'Amsterdam',
-      latitude: 52.346456,
-      longitude: 4.876876,
-      zoom: 18
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
+      zoom: 10
     },
     placeCardName: 'Beautiful & luxurious apartment at great location',
     placeCardType: 'apartment',
@@ -21,9 +21,9 @@ export const offersMock: Offers = [
     id: '2',
     city: {
       name: 'Amsterdam',
-      latitude: 52.37454,
-      longitude: 4.897976,
-      zoom: 9
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198,
+      zoom: 10
     },
     placeCardName: 'Canal View Prinsengracht',
     placeCardType: 'apartment',
@@ -37,9 +37,9 @@ export const offersMock: Offers = [
     id: '3',
     city: {
       name: 'Amsterdam',
-      latitude: 52.37454,
-      longitude: 4.897976,
-      zoom: 11
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
+      zoom: 10
     },
     placeCardName: 'Nice, cozy, warm big bed apartment',
     placeCardType: 'apartment',
@@ -52,10 +52,10 @@ export const offersMock: Offers = [
   {
     id: '4',
     city: {
-      name: 'Paris',
-      latitude: 21.345235,
-      longitude: 3.543662,
-      zoom: 15
+      name: 'Amsterdam',
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 10
     },
     placeCardName: 'Wood and stone place',
     placeCardType: 'Room',

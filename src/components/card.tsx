@@ -4,13 +4,15 @@ import {Offer} from '../types/offer.ts';
 
 export type CardProps = {
     offer: Offer;
+    onMouseEnter: () => void;
+    onMouseLeave: () => void;
 }
 
-function Card({offer}: CardProps){
+function Card({offer, onMouseEnter, onMouseLeave}: CardProps){
   const starsWidth = `${offer.starsCount * 20}%`;
   const bookmarkClass = `place-card__bookmark-button ${offer.inBookmarks && 'place-card__bookmark-button--active'} button`;
   return (
-    <article className="cities__card place-card">
+    <article className="cities__card place-card" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       {offer.isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
