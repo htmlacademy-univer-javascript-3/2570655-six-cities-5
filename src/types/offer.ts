@@ -1,8 +1,8 @@
-import {City} from './city.ts';
+import {CityMap} from './city-map.ts';
 
 export type Offer = {
   id: string;
-  city: City;
+  cityMap: CityMap;
   isPremium: boolean;
   placeCardType: string;
   placeCardName: string;

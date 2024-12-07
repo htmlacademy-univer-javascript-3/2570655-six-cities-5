@@ -3,12 +3,16 @@ import {Offers} from '../types/offer.ts';
 export const offersMock: Offers = [
   {
     id: '1',
-    city: {
-      name: 'Amsterdam',
-      latitude: 52.3909553943508,
-      longitude: 4.85309666406198,
-      zoom: 10
-    },
+    cityMap:
+      {
+        city: {
+          name: 'Amsterdam',
+          id: '4',
+        },
+        latitude: 52.3909553943508,
+        longitude: 4.85309666406198,
+        zoom: 10
+      },
     placeCardName: 'Beautiful & luxurious apartment at great location',
     placeCardType: 'apartment',
     imageUrl: 'img/apartment-01.jpg',
@@ -19,8 +23,11 @@ export const offersMock: Offers = [
   },
   {
     id: '2',
-    city: {
-      name: 'Amsterdam',
+    cityMap: {
+      city: {
+        name: 'Amsterdam',
+        id: '4',
+      },
       latitude: 52.3609553943508,
       longitude: 4.85309666406198,
       zoom: 10
@@ -35,8 +42,11 @@ export const offersMock: Offers = [
   },
   {
     id: '3',
-    city: {
-      name: 'Amsterdam',
+    cityMap: {
+      city: {
+        name: 'Amsterdam',
+        id: '4',
+      },
       latitude: 52.3909553943508,
       longitude: 4.929309666406198,
       zoom: 10
@@ -51,8 +61,11 @@ export const offersMock: Offers = [
   },
   {
     id: '4',
-    city: {
-      name: 'Amsterdam',
+    cityMap: {
+      city: {
+        name: 'Amsterdam',
+        id: '4',
+      },
       latitude: 52.3809553943508,
       longitude: 4.939309666406198,
       zoom: 10
