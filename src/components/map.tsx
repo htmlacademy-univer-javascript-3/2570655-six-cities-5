@@ -1,28 +1,28 @@
 import {useRef, useEffect} from 'react';
 import {Marker, layerGroup} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import {City} from '../types/city.ts';
+import {CityMap} from '../types/city-map.ts';
 import {Offer, Offers} from '../types/offer.ts';
 import {currentCustomIcon, defaultCustomIcon} from '../const.ts';
 import {useMap} from '../hooks/use-map.tsx';
 
 type MapProps = {
-  city: City;
+  cityMap: CityMap;
   offers: Offers;
   selectedOffer: Offer | undefined;
 };
 
-function Map({city, offers, selectedOffer}: MapProps) {
+function Map({cityMap, offers, selectedOffer}: MapProps) {
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap(mapRef, cityMap);
 
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
       offers.forEach((offer) => {
         const marker = new Marker({
-          lat: offer.city.latitude,
-          lng: offer.city.longitude
+          lat: offer.cityMap.latitude,
+          lng: offer.cityMap.longitude
         });
 
         marker

@@ -1,15 +1,12 @@
 import {useParams} from 'react-router-dom';
-import { Offers } from '../types/offer.ts';
 import {HeaderNav} from '../components/heander-nav.tsx';
-import NotFoundScreen from './NotFoundScreen.tsx';
+import NotFoundScreen from './not-found-screen.tsx';
 import {ReviewSendingForm} from '../components/review-sending-form.tsx';
-
-type OfferScreenProps = {
-  offers: Offers;
-};
+import {useAppSelector} from '../hooks';
 
 
-export default function OfferScreen({ offers }: OfferScreenProps) {
+export default function OfferScreen() {
+  const offers = useAppSelector((state) => state.offers);
   const params = useParams();
   const offer = offers.find((item) => item.id === params.id);
 

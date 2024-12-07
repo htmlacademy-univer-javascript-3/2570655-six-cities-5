@@ -1,6 +1,6 @@
 import { Reviews } from '../types/review';
 
-export const reviews: Reviews = [
+export const reviewsMock: Reviews = [
   {
     id: 'e60e1c94-969c-4eed-8448-437eb57127eb',
     comment: 'This villa is perfect',

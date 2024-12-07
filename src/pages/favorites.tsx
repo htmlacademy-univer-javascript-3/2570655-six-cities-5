@@ -1,16 +1,14 @@
 import {HeaderNav} from '../components/heander-nav.tsx';
-import { Offers } from '../types/offer.ts';
 import { Link } from 'react-router-dom';
 import {AppRoute} from '../const.ts';
+import {useAppSelector} from '../hooks';
 
-type FavoritesScreenProps = {
-  offers: Offers;
-};
 
-export default function FavoritesScreen({offers}: FavoritesScreenProps) {
+export default function FavoritesScreen() {
+  const offers = useAppSelector((state) => state.offers);
   const favorites = offers.filter((offer) => offer.inBookmarks);
 
-  const cities = Array.from(new Set(favorites.map((offer) => offer.city.name))).sort();
+  const cities = Array.from(new Set(favorites.map((offer) => offer.cityMap.city.name))).sort();
 
   return (
     <div className="page">
@@ -50,7 +48,7 @@ export default function FavoritesScreen({offers}: FavoritesScreenProps) {
                     </div>
                     <div className="favorites__places">
                       {favorites
-                        .filter((favorite) => favorite.city.name === city)
+                        .filter((favorite) => favorite.cityMap.city.name === city)
                         .map((favorite) => (
                           <article key={favorite.id} className="favorites__card place-card">
                             {favorite.isPremium &&
