@@ -7,7 +7,8 @@ import {
   setError,
   setOffers,
   setOffersDataLoadingStatus,
-  setReviews
+  setReviews,
+  setUserEmail
 } from './action.ts';
 import {City} from '../types/city.ts';
 import {AuthorizationStatus} from '../const.ts';
@@ -19,6 +20,7 @@ type StateType = {
   authorizationStatus: AuthorizationStatus;
   error: string | null;
   isOffersDataLoading: boolean;
+  userEmail: string;
 };
 
 const initialState: StateType = {
@@ -35,6 +37,7 @@ const initialState: StateType = {
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
   isOffersDataLoading: false,
+  userEmail: ''
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -56,5 +59,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setOffersDataLoadingStatus, (state, { payload }) => {
       state.isOffersDataLoading = payload;
+    })
+    .addCase(setUserEmail, (state, { payload }) => {
+      state.userEmail = payload;
     });
 });

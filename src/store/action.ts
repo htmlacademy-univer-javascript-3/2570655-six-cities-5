@@ -10,3 +10,4 @@ export const setReviews = createAction<Reviews>('reviews/setReviews');
 export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');
 export const requireAuthorization = createAction<AuthorizationStatus>('requireAuthorization');
 export const setError = createAction<string | null>('setError');
+export const setUserEmail = createAction<string>('setUserEmail');
