@@ -7,13 +7,19 @@ import Offer from './pages/offer.tsx';
 import Favorites from './pages/favorites.tsx';
 import Login from './pages/login.tsx';
 import PrivateRoute from './private-route.tsx';
-import {setOffers} from './store/action.ts';
-import {useAppDispatch, useAppSelector} from './hooks';
+import {useAppSelector} from './hooks';
+import {LoadingScreen} from './pages/loading-screen.tsx';
 
 function App(): ReactElement {
-  const offers = useAppSelector((state) => state.offers);
-  const dispatch = useAppDispatch();
-  dispatch(setOffers(offers));
+
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return(
     <BrowserRouter>
@@ -33,7 +39,7 @@ function App(): ReactElement {
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+            <PrivateRoute authorizationStatus={authorizationStatus}>
               <Favorites/>
             </PrivateRoute>
           }

@@ -1,15 +1,16 @@
-import {CityMap} from './city-map.ts';
+import {City, Location} from './city.ts';
 
 export type Offer = {
   id: string;
-  cityMap: CityMap;
-  isPremium: boolean;
-  placeCardType: string;
-  placeCardName: string;
+  title: string;
+  type: string;
   price: number;
-  imageUrl: string;
-  starsCount: 0 | 1 | 2 | 3 | 4 | 5;
-  inBookmarks: boolean;
+  previewImage: string;
+  city: City;
+  location: Location;
+  isPremium: boolean;
+  isFavorite: boolean;
+  rating: number;
 };
 
 export type Offers = Offer[];

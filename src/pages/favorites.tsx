@@ -6,9 +6,9 @@ import {useAppSelector} from '../hooks';
 
 export default function FavoritesScreen() {
   const offers = useAppSelector((state) => state.offers);
-  const favorites = offers.filter((offer) => offer.inBookmarks);
+  const favorites = offers.filter((offer) => offer.isFavorite);
 
-  const cities = Array.from(new Set(favorites.map((offer) => offer.cityMap.city.name))).sort();
+  const cities = Array.from(new Set(favorites.map((offer) => offer.city.name))).sort();
 
   return (
     <div className="page">
@@ -48,7 +48,7 @@ export default function FavoritesScreen() {
                     </div>
                     <div className="favorites__places">
                       {favorites
-                        .filter((favorite) => favorite.cityMap.city.name === city)
+                        .filter((favorite) => favorite.city.name === city)
                         .map((favorite) => (
                           <article key={favorite.id} className="favorites__card place-card">
                             {favorite.isPremium &&
@@ -57,7 +57,7 @@ export default function FavoritesScreen() {
                               </div>}
                             <div className="favorites__image-wrapper place-card__image-wrapper">
                               <Link to={`${AppRoute.Offer}/${favorite.id}`}>
-                                <img className="place-card__image" src={favorite.imageUrl} width="150" height="110" alt="Place image" />
+                                <img className="place-card__image" src={favorite.previewImage} width="150" height="110" alt="Place image" />
                               </Link>
                             </div>
                             <div className="favorites__card-info place-card__info">
@@ -75,14 +75,14 @@ export default function FavoritesScreen() {
                               </div>
                               <div className="place-card__rating rating">
                                 <div className="place-card__stars rating__stars">
-                                  <span style={{ width: `${favorite.starsCount * 20}%` }}></span>
+                                  <span style={{ width: `${favorite.rating * 20}%` }}></span>
                                   <span className="visually-hidden">Rating</span>
                                 </div>
                               </div>
                               <h2 className="place-card__name">
-                                <Link to={`${AppRoute.Offer}/${favorite.id}`}>{favorite.placeCardName}</Link>
+                                <Link to={`${AppRoute.Offer}/${favorite.id}`}>{favorite.title}</Link>
                               </h2>
-                              <p className="place-card__type">{favorite.placeCardType}</p>
+                              <p className="place-card__type">{favorite.type}</p>
                             </div>
                           </article>
                         ))}

@@ -38,3 +38,11 @@ export const CITY = {
   lng: 4.902137,
   zoom: 11,
 };
+
+export enum APIRoute {
+  Offers = '/offers',
+  Login = '/login',
+  Favorite = '/favorite',
+  Comments = '/comments',
+  Logout = '/logout',
+}

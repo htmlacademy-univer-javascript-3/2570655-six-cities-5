@@ -56,21 +56,21 @@ export default function OfferScreen() {
                 </div>}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  {offer.placeCardName}
+                  {offer.title}
                 </h1>
-                <button className={`offer__bookmark-button ${offer.inBookmarks && 'offer__bookmark-button--active'} button`} type="button">
+                <button className={`offer__bookmark-button ${offer.isFavorite && 'offer__bookmark-button--active'} button`} type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
-                  <span className="visually-hidden">{offer.inBookmarks ? 'In bookmarks' : 'To bookmarks'}</span>
+                  <span className="visually-hidden">{offer.isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
                 </button>
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: `calc(100% / 5 * ${offer.starsCount})`}}></span>
+                  <span style={{width: `calc(100% / 5 * ${offer.rating})`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">{offer.starsCount}</span>
+                <span className="offer__rating-value rating__value">{offer.rating}</span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">

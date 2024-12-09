@@ -9,8 +9,8 @@ export type CardProps = {
 }
 
 function Card({offer, onMouseEnter, onMouseLeave}: CardProps){
-  const starsWidth = `${offer.starsCount * 20}%`;
-  const bookmarkClass = `place-card__bookmark-button ${offer.inBookmarks && 'place-card__bookmark-button--active'} button`;
+  const starsWidth = `${offer.rating * 20}%`;
+  const bookmarkClass = `place-card__bookmark-button ${offer.isFavorite && 'place-card__bookmark-button--active'} button`;
   return (
     <article className="cities__card place-card" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       {offer.isPremium && (
@@ -20,7 +20,7 @@ function Card({offer, onMouseEnter, onMouseLeave}: CardProps){
       )}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`${AppRoute.Offer}/${offer.id}`}>
-          <img className="place-card__image" src={offer.imageUrl} width="260" height="200" alt="Place image"/>
+          <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image"/>
         </Link>
       </div>
       <div className="place-card__info">
@@ -33,7 +33,7 @@ function Card({offer, onMouseEnter, onMouseLeave}: CardProps){
             <svg className="place-card__bookmark-icon" width={18} height={19}>
               <use xlinkHref="#icon-bookmark"/>
             </svg>
-            {offer.inBookmarks ? <span className="visually-hidden">In bookmarks</span> :
+            {offer.isFavorite ? <span className="visually-hidden">In bookmarks</span> :
               <span className="visually-hidden">To bookmarks</span>}
           </button>
         </div>
@@ -44,9 +44,9 @@ function Card({offer, onMouseEnter, onMouseLeave}: CardProps){
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Offer}/${offer.id}`}>{offer.placeCardName}</Link>
+          <Link to={`${AppRoute.Offer}/${offer.id}`}>{offer.title}</Link>
         </h2>
-        <p className="place-card__type">{offer.placeCardType}</p>
+        <p className="place-card__type">{offer.type}</p>
       </div>
     </article>
   );

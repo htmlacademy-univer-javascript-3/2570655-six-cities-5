@@ -7,7 +7,7 @@ type HeaderNavProps = {
 };
 
 export function HeaderNav({offers}: HeaderNavProps) {
-  const favoritesCount = offers.filter((offer) => offer.inBookmarks).length;
+  const favoritesCount = offers.filter((offer) => offer.isFavorite).length;
 
   return (
     <nav className="header__nav">
