@@ -1,4 +1,32 @@
+import { useAppDispatch } from '../hooks';
+import React, { useState } from 'react';
+import { fetchOffersAction, loginAction } from '../api/api-requests.ts';
+import { useNavigate } from 'react-router-dom';
+import { AppRoute } from '../const.ts';
+
 function Login(){
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState<string>('');
+
+  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    if (password.includes(' ')) {
+      setPasswordError('Password cannot contain spaces');
+      return;
+    }
+
+    setPasswordError('');
+
+    dispatch(loginAction({ login: email, password })).then(() => {
+      dispatch(fetchOffersAction());
+      navigate(AppRoute.Main);
+    });
+  };
+
   return(
     <div className="page page--gray page--login">
       <header className="header">
@@ -22,7 +50,7 @@ function Login(){
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post">
+            <form className="login__form form" onSubmit={handleSubmit} method="post">
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input
@@ -30,7 +58,8 @@ function Login(){
                   type="email"
                   name="email"
                   placeholder="Email"
-                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)} required
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
@@ -40,8 +69,10 @@ function Login(){
                   type="password"
                   name="password"
                   placeholder="Password"
-                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)} required
                 />
+                {passwordError && <div style={{ color: 'red', marginTop: '5px' }}>{passwordError}</div>}
               </div>
               <button
                 className="login__submit form__submit button"
