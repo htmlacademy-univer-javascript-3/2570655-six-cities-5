@@ -1,4 +1,11 @@
 export type City = {
-  id: string;
   name: string;
+  location: Location;
+};
+
+
+export type Location = {
+  latitude: number;
+  longitude: number;
+  zoom: number;
 };

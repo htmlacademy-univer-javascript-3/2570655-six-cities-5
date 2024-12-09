@@ -17,7 +17,7 @@ function MainScreen() : ReactElement {
 
   const selectedOffer = offers.find((offer) => offer.id === activeOfferId);
   useEffect(() => {
-    const filteredOffers = offers.filter((offer) => offer.cityMap.city.name === city.name);
+    const filteredOffers = offers.filter((offer) => offer.city.name === city.name);
     setCurrentCityOffers(filteredOffers);
   }, [city, offers]);
 
@@ -73,7 +73,7 @@ function MainScreen() : ReactElement {
             </section>
             <div className="cities__right-section">
               <Map
-                cityMap={offers[0].cityMap}
+                city={offers[0].city}
                 offers={cityOffers}
                 selectedOffer={selectedOffer}
               />
