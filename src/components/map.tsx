@@ -2,14 +2,14 @@ import {useRef, useEffect} from 'react';
 import {Marker, layerGroup} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {City} from '../types/city.ts';
-import {Offer, Offers} from '../types/offer.ts';
+import {OfferPageItem, Offers} from '../types/offer.ts';
 import {currentCustomIcon, defaultCustomIcon} from '../const.ts';
 import {useMap} from '../hooks/use-map.tsx';
 
 type MapProps = {
   city: City;
   offers: Offers;
-  selectedOffer: Offer | undefined;
+  selectedOffer: OfferPageItem | undefined;
 };
 
 function Map({city, offers, selectedOffer}: MapProps) {
@@ -17,6 +17,7 @@ function Map({city, offers, selectedOffer}: MapProps) {
   const map = useMap(mapRef, city);
 
   useEffect(() => {
+
     if (map) {
       const markerLayer = layerGroup().addTo(map);
       offers.forEach((offer) => {

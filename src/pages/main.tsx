@@ -5,12 +5,14 @@ import {HeaderNav} from '../components/heander-nav.tsx';
 import Map from '../components/map.tsx';
 import {useAppSelector} from '../hooks';
 import {CitiesList} from '../components/cities-list.tsx';
-import {CitiesMock} from '../mocks/cities-mock.ts';
 
 
 function MainScreen() : ReactElement {
   const offers = useAppSelector((state) => state.offers);
   const city = useAppSelector((state) => state.city);
+
+  const cities = offers.map((offer) => offer.city)
+    .filter((cityFilter, index, self) => self.findIndex((x) => x.name === cityFilter.name) === index);
 
   const [cityOffers, setCurrentCityOffers] = useState<Offers>(offers);
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
@@ -30,7 +32,7 @@ function MainScreen() : ReactElement {
               <a className="header__logo-link header__logo-link--active">
                 <img
                   className="header__logo"
-                  src="img/logo.svg"
+                  src="public/img/logo.svg"
                   alt="6 cities logo"
                   width={81}
                   height={41}
@@ -46,7 +48,7 @@ function MainScreen() : ReactElement {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CitiesList cities={CitiesMock}/>
+            <CitiesList cities={cities}/>
           </section>
         </div>
         <div className="cities">
@@ -73,7 +75,7 @@ function MainScreen() : ReactElement {
             </section>
             <div className="cities__right-section">
               <Map
-                city={offers[0].city}
+                city={city}
                 offers={cityOffers}
                 selectedOffer={selectedOffer}
               />

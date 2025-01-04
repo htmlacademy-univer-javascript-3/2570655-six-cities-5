@@ -1,4 +1,5 @@
 import {City, Location} from './city.ts';
+import {User} from './user.ts';
 
 export type Offer = {
   id: string;
@@ -6,6 +7,24 @@ export type Offer = {
   type: string;
   price: number;
   previewImage: string;
+  images: string[];
+  city: City;
+  location: Location;
+  host: User;
+  isPremium: boolean;
+  isFavorite: boolean;
+  rating: number;
+  bedrooms: number;
+  maxAdults: number;
+};
+
+export type OfferPageItem = {
+  id: string;
+  title: string;
+  type: string;
+  price: number;
+  previewImage: string;
+  images: string[];
   city: City;
   location: Location;
   isPremium: boolean;
@@ -13,4 +32,4 @@ export type Offer = {
   rating: number;
 };
 
-export type Offers = Offer[];
+export type Offers = OfferPageItem[];
