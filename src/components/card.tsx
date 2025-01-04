@@ -1,9 +1,9 @@
 import {AppRoute} from '../const.ts';
 import {Link} from 'react-router-dom';
-import {Offer} from '../types/offer.ts';
+import {OfferPageItem} from '../types/offer.ts';
 
 export type CardProps = {
-    offer: Offer;
+    offer: OfferPageItem;
     onMouseEnter: () => void;
     onMouseLeave: () => void;
 }
