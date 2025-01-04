@@ -4,7 +4,9 @@ import {createReducer} from '@reduxjs/toolkit';
 import {
   changeCity,
   requireAuthorization,
-  setError, setNearbyOffers, setOffer,
+  setError,
+  setNearbyOffers,
+  setOffer,
   setOffers,
   setOffersDataLoadingStatus,
   setReviews,

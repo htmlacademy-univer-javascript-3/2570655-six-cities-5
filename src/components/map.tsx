@@ -17,20 +17,20 @@ function Map({city, offers, selectedOffer}: MapProps) {
   const map = useMap(mapRef, city);
 
   useEffect(() => {
-
     if (map) {
+      map.setView([city.location.latitude, city.location.longitude], map.getZoom());
       const markerLayer = layerGroup().addTo(map);
       offers.forEach((offer) => {
         const marker = new Marker({
-          lat: offer.city.location.latitude,
-          lng: offer.city.location.longitude
+          lat: offer.location.latitude,
+          lng: offer.location.longitude,
         });
 
         marker
           .setIcon(
             selectedOffer !== undefined && offer.id === selectedOffer.id
               ? currentCustomIcon
-              : defaultCustomIcon
+              : defaultCustomIcon,
           )
           .addTo(markerLayer);
       });
@@ -39,7 +39,7 @@ function Map({city, offers, selectedOffer}: MapProps) {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offers, selectedOffer]);
+  }, [map, city, offers, selectedOffer]);
 
   return <div className="cities__map map" style={{height: '500px'}} ref={mapRef}></div>;
 }

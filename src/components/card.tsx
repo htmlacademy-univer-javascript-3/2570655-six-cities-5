@@ -29,13 +29,23 @@ function Card({offer, onMouseEnter, onMouseLeave}: CardProps){
             <b className="place-card__price-value">{offer.price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <button className={bookmarkClass} type="button">
-            <svg className="place-card__bookmark-icon" width={18} height={19}>
-              <use xlinkHref="#icon-bookmark"/>
-            </svg>
-            {offer.isFavorite ? <span className="visually-hidden">In bookmarks</span> :
-              <span className="visually-hidden">To bookmarks</span>}
-          </button>
+          {offer.isFavorite ?
+            <button className={bookmarkClass} type="button"
+              onClick={() => null}
+            >
+              <svg className="place-card__bookmark-icon" width={18} height={19}>
+                <use xlinkHref="#icon-bookmark" />
+              </svg>
+              <span className="visually-hidden">In bookmarks</span>
+            </button> :
+            <button className={bookmarkClass} type="button"
+              onClick={() => null}
+            >
+              <svg className="place-card__bookmark-icon" width={18} height={19}>
+                <use xlinkHref="#icon-bookmark"/>
+              </svg>
+              <span className="visually-hidden">To bookmarks</span>
+            </button>}
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

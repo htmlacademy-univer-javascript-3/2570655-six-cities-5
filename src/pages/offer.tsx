@@ -2,11 +2,12 @@ import {useParams} from 'react-router-dom';
 import {HeaderNav} from '../components/heander-nav.tsx';
 import {ReviewSendingForm} from '../components/review-sending-form.tsx';
 import {useAppDispatch, useAppSelector} from '../hooks';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {fetchOfferAction} from '../api/api-requests.ts';
 import {LoadingScreen} from './loading-screen.tsx';
 import {OffersList} from '../components/offers-list.tsx';
 import {AuthorizationStatus} from '../const.ts';
+import Map from '../components/map.tsx';
 
 
 export default function OfferScreen() {
@@ -17,6 +18,8 @@ export default function OfferScreen() {
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
   const params = useParams();
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
+  const selectedOffer = nearbyOffers.find((nearbyOffer) => nearbyOffer.id === activeOfferId);
 
   useEffect(() => {
     if (params.id) {
@@ -33,7 +36,18 @@ export default function OfferScreen() {
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
-            <HeaderNav offers={[]}/>
+            <div className="header__left">
+              <a className="header__logo-link header__logo-link--active" href="/">
+                <img
+                  className="header__logo"
+                  src="public/img/logo.svg"
+                  alt="6 cities logo"
+                  width={81}
+                  height={41}
+                />
+              </a>
+            </div>
+            <HeaderNav favoritesCount={0} />
           </div>
         </div>
       </header>
@@ -178,13 +192,17 @@ export default function OfferScreen() {
               </section>
             </div>
           </div>
-          <section className="offer__map map"></section>
+          <Map
+            city={offer.city}
+            offers={nearbyOffers}
+            selectedOffer={selectedOffer}
+          />
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <OffersList offers={nearbyOffers} changeActiveOffer={() => null}/>
+              <OffersList offers={nearbyOffers} changeActiveOffer={setActiveOfferId}/>
             </div>
           </section>
         </div>
