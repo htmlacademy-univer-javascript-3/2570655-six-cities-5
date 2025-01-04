@@ -17,16 +17,18 @@ export default function FavoritesScreen() {
           <div className="header__wrapper">
             <div className="header__left">
               <a className="header__logo-link header__logo-link--active">
-                <img
-                  className="header__logo"
-                  src="img/logo.svg"
-                  alt="6 cities logo"
-                  width={81}
-                  height={41}
-                />
+                <Link className="to__main__page" to="/">
+                  <img
+                    className="header__logo"
+                    src="public/img/logo.svg"
+                    alt="6 cities logo"
+                    width={81}
+                    height={41}
+                  />
+                </Link>
               </a>
             </div>
-            <HeaderNav offers={offers}/>
+            <HeaderNav favoritesCount={favorites.length}/>
           </div>
         </div>
       </header>
@@ -97,8 +99,8 @@ export default function FavoritesScreen() {
         </div>
       </main>
       <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
+        <a className="footer__logo-link" href="/">
+          <img className="footer__logo" src="public/img/logo.svg" alt="6 cities logo" width="64" height="33"/>
         </a>
       </footer>
     </div>

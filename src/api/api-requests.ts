@@ -2,7 +2,8 @@ import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.ts';
 import {
-  requireAuthorization, setNearbyOffers,
+  requireAuthorization,
+  setNearbyOffers,
   setOffer,
   setOffers,
   setOffersDataLoadingStatus,

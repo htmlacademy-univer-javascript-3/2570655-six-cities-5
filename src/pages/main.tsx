@@ -10,14 +10,12 @@ import {CitiesList} from '../components/cities-list.tsx';
 function MainScreen() : ReactElement {
   const offers = useAppSelector((state) => state.offers);
   const city = useAppSelector((state) => state.city);
-
   const cities = offers.map((offer) => offer.city)
     .filter((cityFilter, index, self) => self.findIndex((x) => x.name === cityFilter.name) === index);
-
   const [cityOffers, setCurrentCityOffers] = useState<Offers>(offers);
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
-
   const selectedOffer = offers.find((offer) => offer.id === activeOfferId);
+
   useEffect(() => {
     const filteredOffers = offers.filter((offer) => offer.city.name === city.name);
     setCurrentCityOffers(filteredOffers);
@@ -29,7 +27,7 @@ function MainScreen() : ReactElement {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link header__logo-link--active">
+              <a className="header__logo-link header__logo-link--active" href="/">
                 <img
                   className="header__logo"
                   src="public/img/logo.svg"
@@ -39,7 +37,7 @@ function MainScreen() : ReactElement {
                 />
               </a>
             </div>
-            <HeaderNav offers={offers}/>
+            <HeaderNav favoritesCount={offers.filter((x) => x.isFavorite).length}/>
           </div>
         </div>
       </header>

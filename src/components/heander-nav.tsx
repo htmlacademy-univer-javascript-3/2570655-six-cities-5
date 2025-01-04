@@ -1,18 +1,16 @@
 import { Link } from 'react-router-dom';
-import { Offers } from '../types/offer.ts';
 import {AppRoute, AuthorizationStatus} from '../const.ts';
 import {useAppDispatch, useAppSelector} from '../hooks';
 import {logoutAction} from '../api/api-requests.ts';
 
 type HeaderNavProps = {
-  offers: Offers;
+  favoritesCount: number;
 };
 
-export function HeaderNav({offers}: HeaderNavProps) {
+export function HeaderNav({favoritesCount}: HeaderNavProps) {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const userEmail = useAppSelector((state) => state.userEmail);
-  const favoritesCount = offers.filter((offer) => offer.isFavorite).length;
   const handleSignOut = () => {
     dispatch(logoutAction());
   };
