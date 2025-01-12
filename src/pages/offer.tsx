@@ -2,7 +2,7 @@ import {useParams} from 'react-router-dom';
 import {HeaderNav} from '../components/heander-nav.tsx';
 import {ReviewSendingForm} from '../components/review-sending-form.tsx';
 import {useAppDispatch, useAppSelector} from '../hooks';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {fetchOfferAction} from '../api/api-requests.ts';
 import {LoadingScreen} from './loading-screen.tsx';
 import {OffersList} from '../components/offers-list.tsx';
@@ -13,13 +13,11 @@ import Map from '../components/map.tsx';
 export default function OfferScreen() {
   const dispatch = useAppDispatch();
   const offer = useAppSelector((state) => state.offer);
-  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffers).slice(0, 3);
   const reviews = useAppSelector((state) => state.reviews);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
   const params = useParams();
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
-  const selectedOffer = nearbyOffers.find((nearbyOffer) => nearbyOffer.id === activeOfferId);
 
   useEffect(() => {
     if (params.id) {
@@ -194,15 +192,15 @@ export default function OfferScreen() {
           </div>
           <Map
             city={offer.city}
-            offers={nearbyOffers}
-            selectedOffer={selectedOffer}
+            offers={nearbyOffers.concat(offer)}
+            selectedOffer={offer}
           />
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <OffersList offers={nearbyOffers} changeActiveOffer={setActiveOfferId}/>
+              <OffersList offers={nearbyOffers} changeActiveOffer={() => null}/>
             </div>
           </section>
         </div>
