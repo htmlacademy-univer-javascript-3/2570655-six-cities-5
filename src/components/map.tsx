@@ -1,4 +1,4 @@
-import {useRef, useEffect} from 'react';
+import {useRef, useEffect, useCallback, memo} from 'react';
 import {Marker, layerGroup} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {City} from '../types/city.ts';
@@ -12,14 +12,15 @@ type MapProps = {
   selectedOffer: OfferPageItem | undefined;
 };
 
-function Map({city, offers, selectedOffer}: MapProps) {
+function MapComponent({city, offers, selectedOffer}: MapProps) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
-  useEffect(() => {
+  const updateMarkers = useCallback(() => {
     if (map) {
       map.setView([city.location.latitude, city.location.longitude], map.getZoom());
       const markerLayer = layerGroup().addTo(map);
+
       offers.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
@@ -41,7 +42,9 @@ function Map({city, offers, selectedOffer}: MapProps) {
     }
   }, [map, city, offers, selectedOffer]);
 
+  useEffect(() => updateMarkers(), [updateMarkers]);
+
   return <div className="cities__map map" style={{height: '500px'}} ref={mapRef}></div>;
 }
 
-export default Map;
+export const Map = memo(MapComponent);

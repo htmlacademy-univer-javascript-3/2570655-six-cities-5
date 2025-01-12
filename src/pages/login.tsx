@@ -1,5 +1,5 @@
 import { useAppDispatch } from '../hooks';
-import React, { useState } from 'react';
+import React, {useCallback, useState} from 'react';
 import { fetchOffersAction, loginAction } from '../api/api-requests.ts';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../const.ts';
@@ -11,21 +11,25 @@ function Login(){
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState<string>('');
 
-  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
+  const handleSubmit = useCallback(
+    (evt: React.FormEvent<HTMLFormElement>) => {
+      evt.preventDefault();
 
-    if (password.includes(' ')) {
-      setPasswordError('Password cannot contain spaces');
-      return;
-    }
+      if (password.includes(' ')) {
+        setPasswordError('Password cannot contain spaces');
+        return;
+      }
 
-    setPasswordError('');
+      setPasswordError('');
 
-    dispatch(loginAction({ login: email, password: password })).then(() => {
-      dispatch(fetchOffersAction());
-      navigate(AppRoute.Main);
-    });
-  };
+      dispatch(loginAction({ login: email, password: password })).then(() => {
+        dispatch(fetchOffersAction());
+        navigate(AppRoute.Main);
+      });
+    },
+    [dispatch, email, password, navigate]
+  );
+
 
   return(
     <div className="page page--gray page--login">

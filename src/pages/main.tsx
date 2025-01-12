@@ -2,15 +2,16 @@ import {ReactElement, useEffect, useState} from 'react';
 import {OffersList} from '../components/offers-list.tsx';
 import {Offers} from '../types/offer.ts';
 import {HeaderNav} from '../components/heander-nav.tsx';
-import Map from '../components/map.tsx';
+import {Map} from '../components/map.tsx';
 import {useAppSelector} from '../hooks';
 import {CitiesList} from '../components/cities-list.tsx';
 import {SortingOptions} from '../components/sorting-options.tsx';
+import {getCity, getOffers} from '../store/offers/selectors.ts';
 
 
 function MainScreen() : ReactElement {
-  const offers = useAppSelector((state) => state.offers);
-  const city = useAppSelector((state) => state.city);
+  const offers = useAppSelector(getOffers);
+  const city = useAppSelector(getCity);
   const cities = offers.map((offer) => offer.city)
     .filter((cityFilter, index, self) => self.findIndex((x) => x.name === cityFilter.name) === index);
   const [cityOffers, setCurrentCityOffers] = useState<Offers>(offers);
@@ -30,7 +31,7 @@ function MainScreen() : ReactElement {
       sortedArray.sort((a, b) => b.rating - a.rating);
     }
     setSortedOffers(sortedArray);
-  }, [cityOffers, sortOption, sortedOffers]);
+  }, [cityOffers, sortOption]);
 
   useEffect(() => {
     const filteredOffers = offers.filter((offer) => offer.city.name === city.name);

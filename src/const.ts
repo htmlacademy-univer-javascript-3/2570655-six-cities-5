@@ -14,11 +14,15 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-const URL_MARKER_DEFAULT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
+export enum Namespace {
+  Options = 'OPTIONS',
+  User = 'USER',
+  Offers = 'OFFERS',
+}
 
-const URL_MARKER_CURRENT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+const URL_MARKER_DEFAULT = '../public/img/pin.svg';
+
+const URL_MARKER_CURRENT = '../public/img/pin-active.svg';
 
 export const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,

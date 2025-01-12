@@ -2,10 +2,11 @@ import {HeaderNav} from '../components/heander-nav.tsx';
 import { Link } from 'react-router-dom';
 import {AppRoute} from '../const.ts';
 import {useAppSelector} from '../hooks';
+import {getOffers} from '../store/offers/selectors.ts';
 
 
 export default function FavoritesScreen() {
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector(getOffers);
   const favorites = offers.filter((offer) => offer.isFavorite);
 
   const cities = Array.from(new Set(favorites.map((offer) => offer.city.name))).sort();
