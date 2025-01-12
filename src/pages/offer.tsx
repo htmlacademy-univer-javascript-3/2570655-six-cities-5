@@ -2,22 +2,25 @@ import {useParams} from 'react-router-dom';
 import {HeaderNav} from '../components/heander-nav.tsx';
 import {ReviewSendingForm} from '../components/review-sending-form.tsx';
 import {useAppDispatch, useAppSelector} from '../hooks';
-import {useEffect} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {fetchOfferAction} from '../api/api-requests.ts';
 import {LoadingScreen} from './loading-screen.tsx';
 import {OffersList} from '../components/offers-list.tsx';
 import {AuthorizationStatus} from '../const.ts';
-import Map from '../components/map.tsx';
+import {Map} from '../components/map.tsx';
+import {getNearbyOffers, getOffer, getReviews} from '../store/offers/selectors.ts';
+import {getOffersDataLoadingStatus} from '../store/options/selectors.ts';
+import {getAuthorizationStatus} from '../store/users/selectors.ts';
 
 
-export default function OfferScreen() {
+function Offer() {
   const dispatch = useAppDispatch();
-  const offer = useAppSelector((state) => state.offer);
-  const nearbyOffers = useAppSelector((state) => state.nearbyOffers).slice(0, 3);
-  const reviews = useAppSelector((state) => state.reviews);
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const offer = useAppSelector(getOffer);
+  const nearbyOffers = useAppSelector(getNearbyOffers).slice(0, 3);
+  const reviews = useAppSelector(getReviews);
+  const isOffersDataLoading = useAppSelector(getOffersDataLoadingStatus);
   const params = useParams();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   useEffect(() => {
     if (params.id) {
@@ -25,8 +28,39 @@ export default function OfferScreen() {
     }
   }, [dispatch, params.id]);
 
+  const renderReviews = useCallback(() => reviews.map((review) => (
+    <li key={review.id} className="reviews__item">
+      <div className="reviews__user user">
+        <div className="reviews__avatar-wrapper user__avatar-wrapper">
+          <img className="reviews__avatar user__avatar" src={review.user.avatarUrl} width="54" height="54" alt="Reviews avatar" />
+        </div>
+        <span className="reviews__user-name">
+          {review.user.name}
+        </span>
+      </div>
+      <div className="reviews__info">
+        <div className="reviews__rating rating">
+          <div className="reviews__stars rating__stars">
+            <span style={{ width: review.rating * 20 }}></span>
+            <span className="visually-hidden">Rating</span>
+          </div>
+        </div>
+        <p className="reviews__text">
+          {review.comment}
+        </p>
+        <time className="reviews__time" dateTime={review.date}>{review.date}</time>
+      </div>
+    </li>
+  )), [reviews]);
+
+  const renderOfferImages = useMemo(() => offer.images.map((image) => (
+    <div key={image} className="offer__image-wrapper">
+      <img className="offer__image" src={image} alt="Photo studio" />
+    </div>
+  )), [offer.images]);
+
   if (isOffersDataLoading || !offer) {
-    return (<LoadingScreen/>);
+    return <LoadingScreen />;
   }
 
   return (
@@ -54,18 +88,16 @@ export default function OfferScreen() {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {offer.images.map((image) => (
-                <div key={image} className="offer__image-wrapper">
-                  <img className="offer__image" src={image} alt="Photo studio"/>
-                </div>))}
+              {renderOfferImages}
             </div>
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              {offer.isPremium &&
+              {offer.isPremium && (
                 <div className="offer__mark">
                   <span>Premium</span>
-                </div>}
+                </div>
+              )}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
                   {offer.title}
@@ -79,7 +111,7 @@ export default function OfferScreen() {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: `calc(100% / 5 * ${offer.rating})`}}></span>
+                  <span style={{ width: `calc(100% / 5 * ${offer.rating})` }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{offer.rating}</span>
@@ -113,7 +145,6 @@ export default function OfferScreen() {
                   </li>
                   <li className="offer__inside-item">
                     Heating
-                    Heating
                   </li>
                   <li className="offer__inside-item">
                     Coffee machine
@@ -139,7 +170,7 @@ export default function OfferScreen() {
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
                   <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="offer__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar"/>
+                    <img className="offer__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="offer__user-name">
                     {offer.host.name}
@@ -160,33 +191,9 @@ export default function OfferScreen() {
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
                 <ul className="reviews__list">
-                  {reviews.map((review) => (
-                    <li key={review.id} className="reviews__item">
-                      <div className="reviews__user user">
-                        <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                          <img className="reviews__avatar user__avatar" src={review.user.avatarUrl} width="54" height="54" alt="Reviews avatar"/>
-                        </div>
-                        <span className="reviews__user-name">
-                          {review.user.name}
-                        </span>
-                      </div>
-                      <div className="reviews__info">
-                        <div className="reviews__rating rating">
-                          <div className="reviews__stars rating__stars">
-                            <span style={{width: review.rating * 20}}></span>
-                            <span className="visually-hidden">Rating</span>
-                          </div>
-                        </div>
-                        <p className="reviews__text">
-                          {review.comment}
-                        </p>
-                        <time className="reviews__time" dateTime={review.date}>{review.date}</time>
-                      </div>
-                    </li>))}
+                  {renderReviews()}
                 </ul>
-                {(authorizationStatus === AuthorizationStatus.Auth) ?
-                  <ReviewSendingForm /> :
-                  null}
+                {authorizationStatus === AuthorizationStatus.Auth && <ReviewSendingForm />}
               </section>
             </div>
           </div>
@@ -200,7 +207,7 @@ export default function OfferScreen() {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <OffersList offers={nearbyOffers} changeActiveOffer={() => null}/>
+              <OffersList offers={nearbyOffers} changeActiveOffer={() => null} />
             </div>
           </section>
         </div>
@@ -208,3 +215,6 @@ export default function OfferScreen() {
     </div>
   );
 }
+
+const OfferScreen = React.memo(Offer);
+export default OfferScreen;

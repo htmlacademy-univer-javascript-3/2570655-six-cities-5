@@ -2,18 +2,21 @@ import { Link } from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../const.ts';
 import {useAppDispatch, useAppSelector} from '../hooks';
 import {logoutAction} from '../api/api-requests.ts';
+import {getAuthorizationStatus, getUserEmail} from '../store/users/selectors.ts';
+import {memo, useCallback} from 'react';
 
 type HeaderNavProps = {
   favoritesCount: number;
 };
 
-export function HeaderNav({favoritesCount}: HeaderNavProps) {
+function HeaderNavComponent({favoritesCount}: HeaderNavProps) {
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const userEmail = useAppSelector((state) => state.userEmail);
-  const handleSignOut = () => {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userEmail = useAppSelector(getUserEmail);
+
+  const handleSignOut = useCallback(() => {
     dispatch(logoutAction());
-  };
+  }, [dispatch]);
 
   return (
     <nav className="header__nav">
@@ -47,3 +50,5 @@ export function HeaderNav({favoritesCount}: HeaderNavProps) {
     </nav>
   );
 }
+
+export const HeaderNav = memo(HeaderNavComponent);

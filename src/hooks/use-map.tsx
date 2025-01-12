@@ -1,13 +1,12 @@
-import {useEffect, useState, useRef, RefObject} from 'react';
+import {useEffect, useState, useRef, useCallback, RefObject} from 'react';
 import leaflet from 'leaflet';
-import {City} from '../types/city.ts';
-
+import { City } from '../types/city.ts';
 
 export function useMap(mapRef: RefObject<HTMLElement>, city: City) {
   const [map, setMap] = useState<leaflet.Map | null>(null);
   const isRenderedRef = useRef(false);
 
-  useEffect(() => {
+  const createMapInstance = useCallback(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = leaflet.map(mapRef.current, {
         center: {
@@ -31,6 +30,10 @@ export function useMap(mapRef: RefObject<HTMLElement>, city: City) {
       isRenderedRef.current = true;
     }
   }, [mapRef, city]);
+
+  useEffect(() => {
+    createMapInstance();
+  }, [createMapInstance]);
 
   return map;
 }

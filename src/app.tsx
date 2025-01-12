@@ -9,11 +9,13 @@ import Login from './pages/login.tsx';
 import PrivateRoute from './private-route.tsx';
 import {useAppSelector} from './hooks';
 import {LoadingScreen} from './pages/loading-screen.tsx';
+import {getAuthorizationStatus} from './store/users/selectors.ts';
+import {getOffersDataLoadingStatus} from './store/options/selectors.ts';
 
 function App(): ReactElement {
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isOffersDataLoading = useAppSelector(getOffersDataLoadingStatus);
 
   if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
     return (

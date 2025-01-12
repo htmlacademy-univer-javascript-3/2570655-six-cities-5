@@ -1,17 +1,21 @@
 import {useAppDispatch} from '../hooks';
 import {changeCity} from '../store/action.ts';
 import {City} from '../types/city.ts';
+import {memo, useCallback} from 'react';
 
 type CitiesListProps = {
   cities: City[];
 };
 
-export function CitiesList({ cities }: CitiesListProps) {
+export function CitiesListComponent({ cities }: CitiesListProps) {
   const dispatch = useAppDispatch();
 
-  const handleCityChange = (city: City) => {
-    dispatch(changeCity(city));
-  };
+  const handleCityChange = useCallback(
+    (city: City) => {
+      dispatch(changeCity(city));
+    },
+    [dispatch]
+  );
 
   return (
     <ul className="locations__list tabs__list">
@@ -29,3 +33,5 @@ export function CitiesList({ cities }: CitiesListProps) {
     </ul>
   );
 }
+
+export const CitiesList = memo(CitiesListComponent);

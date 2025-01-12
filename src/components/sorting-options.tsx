@@ -1,21 +1,24 @@
-import {useState} from 'react';
+import {memo, useCallback, useState} from 'react';
 
 type SortingOptionsProps = {
   sortOption: string;
   setSortOption: (sortOption: string) => void;
 }
 
-export function SortingOptions({ sortOption, setSortOption }: SortingOptionsProps) {
+function SortingOptionsComponent({ sortOption, setSortOption }: SortingOptionsProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleOptionClick = (option: string) => {
-    setSortOption(option);
-    setIsOpen(false); // Закрываем список после выбора опции
-  };
+  const handleOptionClick = useCallback(
+    (option: string) => {
+      setSortOption(option);
+      setIsOpen(false);
+    },
+    [setSortOption]
+  );
 
-  const toggleOptions = () => {
-    setIsOpen((prev) => !prev); // Переключаем состояние открытия списка
-  };
+  const toggleOptions = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
 
   return (
     <div>
@@ -58,3 +61,5 @@ export function SortingOptions({ sortOption, setSortOption }: SortingOptionsProp
       </form>
     </div>);
 }
+
+export const SortingOptions = memo(SortingOptionsComponent);

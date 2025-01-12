@@ -26,8 +26,8 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     dispatch(setOffersDataLoadingStatus(true));
     const {data} = await api.get<Offers>(APIRoute.Offers);
-    dispatch(setOffersDataLoadingStatus(false));
     dispatch(setOffers(data));
+    dispatch(setOffersDataLoadingStatus(false));
   },
 );
 
@@ -71,7 +71,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
   extra: AxiosInstance;
 }>(
   'user/login',
-  async ({login: email, password}, {dispatch, extra: api}) => {
+  async ({login: email, password: password}, {dispatch, extra: api}) => {
     const {data: {token}} = await api.post<User>(APIRoute.Login, {email, password});
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
