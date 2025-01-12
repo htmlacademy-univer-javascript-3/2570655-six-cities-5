@@ -19,6 +19,10 @@ function Login(){
         setPasswordError('Password cannot contain spaces');
         return;
       }
+      if (!/\d/.test(password) || !/[a-zа-яё]/i.test(password)){
+        setPasswordError('Password must contain at least 1 letter and 1 number');
+        return;
+      }
 
       setPasswordError('');
 
@@ -27,7 +31,7 @@ function Login(){
         navigate(AppRoute.Main);
       });
     },
-    [dispatch, email, password, navigate]
+    [dispatch, email, password, passwordError, navigate]
   );
 
 
