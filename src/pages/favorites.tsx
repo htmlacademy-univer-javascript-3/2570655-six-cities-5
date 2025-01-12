@@ -1,18 +1,28 @@
 import {HeaderNav} from '../components/heander-nav.tsx';
 import { Link } from 'react-router-dom';
-import {AppRoute} from '../const.ts';
-import {useAppSelector} from '../hooks';
-import {getOffers} from '../store/offers/selectors.ts';
+import {AppRoute, AuthorizationStatus} from '../const.ts';
+import {useAppDispatch, useAppSelector} from '../hooks';
+import {getFavorites} from '../store/offers/selectors.ts';
+import {editFavoriteStatusAction, fetchFavoritesAction} from '../api/api-requests.ts';
+import {OfferPageItem} from '../types/offer.ts';
+import {getAuthorizationStatus} from '../store/users/selectors.ts';
 
 
 export default function FavoritesScreen() {
-  const offers = useAppSelector(getOffers);
-  const favorites = offers.filter((offer) => offer.isFavorite);
-
+  const dispatch = useAppDispatch();
+  dispatch(fetchFavoritesAction());
+  const favorites = useAppSelector(getFavorites);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const cities = Array.from(new Set(favorites.map((offer) => offer.city.name))).sort();
 
+  function handleBookmarkClick(offer: OfferPageItem) {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(editFavoriteStatusAction({offerId: offer.id, status: offer.isFavorite ? 0 : 1}));
+    }
+  }
+
   return (
-    <div className="page">
+    <div className="page page--favorites-empty">
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -69,16 +79,22 @@ export default function FavoritesScreen() {
                                   <b className="place-card__price-value">&euro;{favorite.price}</b>
                                   <span className="place-card__price-text">&#47;&nbsp;night</span>
                                 </div>
-                                <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+                                <button
+                                  className={`place-card__bookmark-button ${favorite.isFavorite && 'place-card__bookmark-button--active'} button`}
+                                  type="button" onClick={() => handleBookmarkClick(favorite)}
+                                >
                                   <svg className="place-card__bookmark-icon" width="18" height="19">
                                     <use xlinkHref="#icon-bookmark"></use>
                                   </svg>
-                                  <span className="visually-hidden">In bookmarks</span>
+                                  <span
+                                    className="visually-hidden"
+                                  >{favorite.isFavorite ? 'In bookmarks' : 'To bookmarks'}
+                                  </span>
                                 </button>
                               </div>
                               <div className="place-card__rating rating">
                                 <div className="place-card__stars rating__stars">
-                                  <span style={{ width: `${favorite.rating * 20}%` }}></span>
+                                  <span style={{width: `${favorite.rating * 20}%`}}></span>
                                   <span className="visually-hidden">Rating</span>
                                 </div>
                               </div>
@@ -99,7 +115,7 @@ export default function FavoritesScreen() {
           </section>
         </div>
       </main>
-      <footer className="footer container">
+      <footer className="footer">
         <a className="footer__logo-link" href="/">
           <img className="footer__logo" src="public/img/logo.svg" alt="6 cities logo" width="64" height="33"/>
         </a>

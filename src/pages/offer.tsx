@@ -3,12 +3,12 @@ import {HeaderNav} from '../components/heander-nav.tsx';
 import {ReviewSendingForm} from '../components/review-sending-form.tsx';
 import {useAppDispatch, useAppSelector} from '../hooks';
 import React, {useCallback, useEffect, useMemo} from 'react';
-import {fetchOfferAction} from '../api/api-requests.ts';
+import {editFavoriteStatusAction, fetchOfferAction} from '../api/api-requests.ts';
 import {LoadingScreen} from './loading-screen.tsx';
 import {OffersList} from '../components/offers-list.tsx';
 import {AuthorizationStatus} from '../const.ts';
 import {Map} from '../components/map.tsx';
-import {getNearbyOffers, getOffer, getReviews} from '../store/offers/selectors.ts';
+import {getFavorites, getNearbyOffers, getOffer, getReviews} from '../store/offers/selectors.ts';
 import {getOffersDataLoadingStatus} from '../store/options/selectors.ts';
 import {getAuthorizationStatus} from '../store/users/selectors.ts';
 
@@ -16,6 +16,7 @@ import {getAuthorizationStatus} from '../store/users/selectors.ts';
 function Offer() {
   const dispatch = useAppDispatch();
   const offer = useAppSelector(getOffer);
+  const favorites = useAppSelector(getFavorites);
   const nearbyOffers = useAppSelector(getNearbyOffers).slice(0, 3);
   const reviews = useAppSelector(getReviews);
   const isOffersDataLoading = useAppSelector(getOffersDataLoadingStatus);
@@ -59,6 +60,12 @@ function Offer() {
     </div>
   )), [offer.images]);
 
+  function handleBookmarkClick() {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(editFavoriteStatusAction({offerId: offer.id, status: offer.isFavorite ? 0 : 1}));
+    }
+  }
+
   if (isOffersDataLoading || !offer) {
     return <LoadingScreen />;
   }
@@ -79,7 +86,7 @@ function Offer() {
                 />
               </a>
             </div>
-            <HeaderNav favoritesCount={0} />
+            <HeaderNav favoritesCount={favorites.length} />
           </div>
         </div>
       </header>
@@ -102,7 +109,9 @@ function Offer() {
                 <h1 className="offer__name">
                   {offer.title}
                 </h1>
-                <button className={`offer__bookmark-button ${offer.isFavorite && 'offer__bookmark-button--active'} button`} type="button">
+                <button className={`offer__bookmark-button ${offer.isFavorite && 'offer__bookmark-button--active'} button`}
+                  type="button" onClick={handleBookmarkClick}
+                >
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>

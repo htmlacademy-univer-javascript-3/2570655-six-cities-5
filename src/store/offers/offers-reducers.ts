@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {
-  changeCity,
+  changeCity, editFavorite, setFavorites,
   setNearbyOffers,
   setOffer,
   setOffers,
@@ -15,6 +15,7 @@ type OffersStateType = {
   city: City;
   offers: Offers;
   offer: Offer;
+  favorites: Offers;
   reviews: Reviews;
   nearbyOffers: Offers;
 };
@@ -64,6 +65,7 @@ const initialState: OffersStateType = {
   },
   nearbyOffers: [],
   reviews: [],
+  favorites: []
 };
 
 export const offersReducers = createSlice({
@@ -86,6 +88,30 @@ export const offersReducers = createSlice({
       })
       .addCase(setNearbyOffers, (state, { payload }) => {
         state.nearbyOffers = payload;
+      })
+      .addCase(setFavorites, (state, { payload }) => {
+        state.favorites = payload;
+      })
+      .addCase(editFavorite, (state, { payload }) => {
+        const offer = payload;
+        const actualOffer = state.offers.find((o) => o.id === offer.id);
+        if (actualOffer) {
+          actualOffer.isFavorite = offer.isFavorite;
+        }
+        const actualNearby = state.nearbyOffers.find((o) => o.id === offer.id);
+        if (actualNearby) {
+          actualNearby.isFavorite = offer.isFavorite;
+        }
+        const actualFavorite = state.favorites.find((f) => f.id === offer.id);
+        if (offer.isFavorite && !actualFavorite) {
+          state.favorites.push(offer);
+        }
+        if (!offer.isFavorite && actualFavorite) {
+          state.favorites = state.favorites.filter((f) => f.id !== offer.id);
+        }
+        if (state.offer && state.offer.id === offer.id) {
+          state.offer.isFavorite = offer.isFavorite;
+        }
       });
   }
 });

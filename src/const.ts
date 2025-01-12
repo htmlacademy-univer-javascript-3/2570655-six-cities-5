@@ -40,6 +40,10 @@ export enum APIRoute {
   Offers = '/offers',
   Login = '/login',
   Favorite = '/favorite',
-  Comments = '/comments/',
+  Comments = '/comments',
   Logout = '/logout',
 }
+
+export const MIN_REVIEW_LENGTH = 50;
+export const MAX_REVIEW_LENGTH = 300;
+
