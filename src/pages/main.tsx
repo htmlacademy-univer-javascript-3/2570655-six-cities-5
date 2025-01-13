@@ -6,14 +6,16 @@ import {Map} from '../components/map.tsx';
 import {useAppSelector} from '../hooks';
 import {CitiesList} from '../components/cities-list.tsx';
 import {SortingOptions} from '../components/sorting-options.tsx';
-import {getCity, getOffers} from '../store/offers/selectors.ts';
+import {getCity, getFavorites, getOffers} from '../store/offers/selectors.ts';
 
 
 function MainScreen() : ReactElement {
   const offers = useAppSelector(getOffers);
   const city = useAppSelector(getCity);
+  const favorites = useAppSelector(getFavorites);
   const cities = offers.map((offer) => offer.city)
-    .filter((cityFilter, index, self) => self.findIndex((x) => x.name === cityFilter.name) === index);
+    .filter((cityFilter, index, self) => self.findIndex((x) => x.name === cityFilter.name) === index)
+    .sort((a, b) => a.name < b.name ? -1 : 1);
   const [cityOffers, setCurrentCityOffers] = useState<Offers>(offers);
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
   const selectedOffer = offers.find((offer) => offer.id === activeOfferId);
@@ -31,7 +33,7 @@ function MainScreen() : ReactElement {
       sortedArray.sort((a, b) => b.rating - a.rating);
     }
     setSortedOffers(sortedArray);
-  }, [cityOffers, sortOption]);
+  }, [cityOffers, sortOption, favorites]);
 
   useEffect(() => {
     const filteredOffers = offers.filter((offer) => offer.city.name === city.name);

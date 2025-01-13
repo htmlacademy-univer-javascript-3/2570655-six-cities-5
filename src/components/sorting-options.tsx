@@ -23,7 +23,7 @@ function SortingOptionsComponent({ sortOption, setSortOption }: SortingOptionsPr
   return (
     <div>
       <form className="places__sorting" action="#" method="get">
-        <span className="places__sorting-caption">Sort by</span>
+        <span className="places__sorting-caption">Sort by  </span>
         <span className="places__sorting-type" tabIndex={0} onClick={toggleOptions}>
           {sortOption}
           <svg className="places__sorting-arrow" width="7" height="4">
