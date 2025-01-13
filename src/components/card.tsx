@@ -14,7 +14,7 @@ export type CardProps = {
 function Card({offer, onMouseEnter, onMouseLeave}: CardProps){
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const starsWidth = `${offer.rating * 20}%`;
+  const starsWidth = `${Math.round(offer.rating) * 20}%`;
 
   function handleBookmarkClick() {
     if (authorizationStatus === AuthorizationStatus.Auth) {
