@@ -18,7 +18,7 @@ function Offer() {
   const offer = useAppSelector(getOffer);
   const favorites = useAppSelector(getFavorites);
   const nearbyOffers = useAppSelector(getNearbyOffers).slice(0, 3);
-  const reviews = useAppSelector(getReviews);
+  const reviews = useAppSelector(getReviews).slice(0, 10);
   const isOffersDataLoading = useAppSelector(getOffersDataLoadingStatus);
   const params = useParams();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
