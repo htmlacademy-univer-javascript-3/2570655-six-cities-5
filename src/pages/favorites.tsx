@@ -3,14 +3,13 @@ import { Link } from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../const.ts';
 import {useAppDispatch, useAppSelector} from '../hooks';
 import {getFavorites} from '../store/offers/selectors.ts';
-import {editFavoriteStatusAction, fetchFavoritesAction} from '../api/api-requests.ts';
+import {editFavoriteStatusAction} from '../api/api-requests.ts';
 import {OfferPageItem} from '../types/offer.ts';
 import {getAuthorizationStatus} from '../store/users/selectors.ts';
 
 
 export default function FavoritesScreen() {
   const dispatch = useAppDispatch();
-  dispatch(fetchFavoritesAction());
   const favorites = useAppSelector(getFavorites);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const cities = Array.from(new Set(favorites.map((offer) => offer.city.name))).sort();

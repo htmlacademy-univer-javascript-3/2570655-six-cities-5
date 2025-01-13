@@ -31,7 +31,7 @@ function Login(){
         navigate(AppRoute.Main);
       });
     },
-    [dispatch, email, password, passwordError, navigate]
+    [dispatch, email, password, navigate]
   );
 
 
