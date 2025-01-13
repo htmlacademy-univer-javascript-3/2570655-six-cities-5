@@ -120,20 +120,20 @@ function Offer() {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{ width: `calc(100% / 5 * ${offer.rating})` }}></span>
+                  <span style={{ width: `calc(100% / 5 * ${Math.round(offer.rating)})` }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{offer.rating}</span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
-                  Apartment
+                  {offer.type}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  3 Bedrooms
+                  {offer.bedrooms === 1 ? '1 Bedroom' : `${offer.bedrooms} Bedrooms`}
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max 4 adults
+                  {offer.maxAdults === 1 ? 'Max 1 adult' : `Max ${offer.maxAdults} adults`}
                 </li>
               </ul>
               <div className="offer__price">
